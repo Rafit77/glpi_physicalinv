@@ -1,3 +1,10 @@
+
+== Only adding needed fixes to original plugin:
+
+  * make it compatible with GLPI 9.4
+  * it should now work with Generic Object plugin
+  * using extra field "otherserial" in search - if exist 
+  
 == Physical inventory Plugin
 
 This plugin permit to manage easily the physical inventory of devices.

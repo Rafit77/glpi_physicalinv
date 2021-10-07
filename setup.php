@@ -41,7 +41,7 @@
  *
  */
 
-define ("PLUGIN_PHYSICALINV_VERSION", "9.1+1.1");
+define ("PLUGIN_PHYSICALINV_VERSION", "9.4+1.0");
 
 include_once(GLPI_ROOT."/inc/includes.php");
 
