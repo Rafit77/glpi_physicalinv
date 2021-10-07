@@ -41,7 +41,7 @@
  *
  */
 
-define ("PLUGIN_PHYSICALINV_VERSION", "9.4+1.0");
+define ("PLUGIN_PHYSICALINV_VERSION", "9.1+1.1");
 
 include_once(GLPI_ROOT."/inc/includes.php");
 
@@ -65,7 +65,7 @@ function plugin_init_physicalinv() {
       }
 
       $Plugin->registerClass('PluginPhysicalinvProfile',
-              array('addtabon' => array('Profile')));
+              ['addtabon' => ['Profile']]);
 
    }
 }
@@ -78,7 +78,7 @@ function plugin_init_physicalinv() {
  * @return array
  */
 function plugin_version_physicalinv() {
-   return array('name'           => 'Physical inventory',
+   return ['name'           => 'Physical inventory',
                 'shortname'      => 'physicalinv',
                 'version'        => PLUGIN_PHYSICALINV_VERSION,
                 'license'        => 'AGPLv3+',
@@ -86,7 +86,7 @@ function plugin_version_physicalinv() {
                                     & <a href="mailto:dcs.glpi@dcsit-group.com">DCS company</a>',
                 'homepage'       => 'https://github.com/ddurieux/glpi_physicalinv',
                 'minGlpiVersion' => '9.1'
-   );
+   ];
 }
 
 
@@ -101,11 +101,11 @@ function plugin_physicalinv_check_prerequisites() {
    global $DB;
 
    if (!isset($_SESSION['glpi_plugins'])) {
-      $_SESSION['glpi_plugins'] = array();
+      $_SESSION['glpi_plugins'] = [];
    }
 
-   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.5', 'gt')) {
-      echo __('Your GLPI version not compatible, require >= 9.1 and =< 9.4', 'physicalinv');
+   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.6', 'gt')) {
+      echo __('Your GLPI version not compatible, require >= 9.1 and =< 9.5', 'physicalinv');
       return FALSE;
    }
    return TRUE;

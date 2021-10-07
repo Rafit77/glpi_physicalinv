@@ -156,11 +156,11 @@ class PluginPhysicalinvInventory extends CommonGLPI {
    function searchItemWithNumber($number) {
       global $DB, $CFG_GLPI;
 
-      $id_list = array();
+      $id_list = [];
 
       // search in inventory have serial number or inventory number
       foreach($CFG_GLPI["asset_types"] as $itemtype) {
-         $where_fields = array();
+         $where_fields = [];
          $table = getTableForItemType($itemtype);
          $item = new $itemtype();
 
@@ -232,20 +232,20 @@ class PluginPhysicalinvInventory extends CommonGLPI {
       echo "<td>";
       $objectName = autoName($item->fields["name"], "name", False,
                              $item->getType(), $item->fields["entities_id"]);
-      Html::autocompletionTextField($item, 'name', array('value' => $objectName));
+      Html::autocompletionTextField($item, 'name', ['value' => $objectName]);
       echo "</td>";
       echo "<td>".__('Status')."</td>";
       echo "<td>";
-      State::dropdown(array('value'     => $item->fields["states_id"],
-                            'entity'    => $item->fields["entities_id"],
-                            'condition' => "`is_visible_computer`"));
+      State::dropdown( ['value'     => $item->fields["states_id"],
+                        'entity'    => $item->fields["entities_id"],
+                        'condition' => ["`is_visible_computer`"]]);
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Location')."</td>";
       echo "<td>";
-      Location::dropdown(array('value'  => $item->fields["locations_id"],
-                               'entity' => $item->fields["entities_id"]));
+      Location::dropdown(['value'  => $item->fields["locations_id"],
+                               'entity' => $item->fields["entities_id"]]);
       echo "</td>";
 
 
@@ -257,7 +257,7 @@ class PluginPhysicalinvInventory extends CommonGLPI {
          echo __('Type');
          echo "</td>";
          echo "<td>";
-         $model::dropdown(array('value' => $item->fields[$fk]));
+         $model::dropdown(['value' => $item->fields[$fk]]);
          echo "</td>";
       } else {
          echo "<td colspan='2'></td>";
@@ -266,13 +266,13 @@ class PluginPhysicalinvInventory extends CommonGLPI {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('User')."</td>";
       echo "<td>";
-      User::dropdown(array('value'  => $item->fields["users_id"],
+      User::dropdown(['value'  => $item->fields["users_id"],
                            'entity' => $item->fields["entities_id"],
-                           'right'  => 'all'));
+                           'right'  => 'all']);
       echo "</td>";
       echo "<td>".__('Manufacturer')."</td>";
       echo "<td>";
-      Manufacturer::dropdown(array('value' => $item->fields["manufacturers_id"]));
+      Manufacturer::dropdown(['value' => $item->fields["manufacturers_id"]]);
       echo "</td></tr>\n";
 
       echo "<tr class='tab_bg_1'>";
@@ -289,7 +289,7 @@ class PluginPhysicalinvInventory extends CommonGLPI {
          echo __('Model');
          echo "</td>";
          echo "<td>";
-         $model::dropdown(array('value' => $item->fields[$fk]));
+         $model::dropdown(['value' => $item->fields[$fk]]);
          echo "</td>";
       } else {
          echo "<td colspan='2'></td>";
@@ -307,13 +307,13 @@ class PluginPhysicalinvInventory extends CommonGLPI {
       echo "<td>";
       $objectName = autoName($item->fields["otherserial"], "otherserial", False,
                              $item->getType(), $item->fields["entities_id"]);
-      Html::autocompletionTextField($item, 'otherserial', array('value' => $objectName));
+      Html::autocompletionTextField($item, 'otherserial', ['value' => $objectName]);
       echo "</td></tr>\n";
 
       echo "<tr>";
       echo "<td class='center' style='height: 60px;' colspan='4'>";
-      echo Html::hidden('itemtype', array('value' => $itemtype));
-      echo Html::hidden('id', array('value' => $id));
+      echo Html::hidden('itemtype', ['value' => $itemtype]);
+      echo Html::hidden('id', ['value' => $id]);
       echo "<input type='submit' name='valid_inventory' value=\"".
                __('Validate physical inventory', 'physicalinv')."\" class='submit' >";
       echo "</td>";
@@ -336,15 +336,15 @@ class PluginPhysicalinvInventory extends CommonGLPI {
       $infocom = new Infocom();
 
       if ($infocom->getFromDBforDevice($data['itemtype'], $data['id'])) {
-         $input = array('id'             => $infocom->fields['id'],
-                        'inventory_date' => date("Y-m-d H:i:s"));
+         $input = ['id'             => $infocom->fields['id'],
+                        'inventory_date' => date("Y-m-d H:i:s")];
          $infocom->update($input);
       } else {
-         $input = array(
+         $input = [
              'items_id'       => $data['id'],
              'itemtype'       => $data['itemtype'],
              'inventory_date' => date("Y-m-d H:i:s")
-         );
+         ];
          $infocom->add($input);
       }
       Session::addMessageAfterRedirect(__('Information udpated', 'physicalinv'), false, INFO);
@@ -392,8 +392,8 @@ class PluginPhysicalinvInventory extends CommonGLPI {
 
             echo "<form method='post' name='' id=''  action=\"".$CFG_GLPI['root_doc'] .
                "/plugins/physicalinv/front/inventory.form.php\">";
-            echo Html::hidden('itemtype', array('value' => $itemtype));
-            echo Html::hidden('id', array('value' => $id));
+            echo Html::hidden('itemtype', ['value' => $itemtype]);
+            echo Html::hidden('id', ['value' => $id]);
             echo "<input type='submit' name='choose_device' value=\"".
                      __('Choose it', 'physicalinv')."\" class='submit' >";
             Html::closeForm();
@@ -416,7 +416,7 @@ class PluginPhysicalinvInventory extends CommonGLPI {
    static function getAdditionalMenuOptions() {
       global $CFG_GLPI;
 
-      $options = array();
+      $options = [];
 
       $options['inventory']['title'] = __('Physical inventory', 'physicalinv');
       $options['inventory']['page']  = $CFG_GLPI['root_doc']."/plugins/physicalinv/front/inventory.php";

@@ -101,7 +101,7 @@ class PluginPhysicalinvProfile extends Profile {
    function showForm($profiles_id=0, $openform=TRUE, $closeform=TRUE) {
 
       echo "<div class='firstbloc'>";
-      if (($canedit = Session::haveRightsOr(self::$rightname, array(CREATE, UPDATE, PURGE)))
+      if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE]))
           && $openform) {
          $profile = new Profile();
          echo "<form method='post' action='".$profile->getFormURL()."'>";
@@ -110,24 +110,24 @@ class PluginPhysicalinvProfile extends Profile {
       $profile = new Profile();
       $profile->getFromDB($profiles_id);
 
-      $rights = array(
-          array(
+      $rights = [
+          [
               'rights' => array(UPDATE => __('Update')),
               'label'  => __('Physical inventory', 'physicalinv'),
               'field'  => 'plugin_physicalinv_inventory'
-              )
-          );
+              ]
+          ];
 
-      $profile->displayRightsChoiceMatrix($rights, array(
+      $profile->displayRightsChoiceMatrix($rights, [
           'canedit'       => $canedit,
           'default_class' => 'tab_bg_2',
-          'title'         => __('General', 'physicalinv')));
+          'title'         => __('General', 'physicalinv')]);
 
       if ($canedit
           && $closeform) {
          echo "<div class='center'>";
-         echo Html::hidden('id', array('value' => $profiles_id));
-         echo Html::submit(_sx('button', 'Save'), array('name' => 'update'));
+         echo Html::hidden('id', ['value' => $profiles_id]);
+         echo Html::submit(_sx('button', 'Save'), ['name' => 'update']);
          echo "</div>\n";
          Html::closeForm();
       }
@@ -144,15 +144,15 @@ class PluginPhysicalinvProfile extends Profile {
     */
    static function uninstallProfile() {
       $pfProfile = new self();
-      $a_rights = array(
+      $a_rights = [
           array(
               'rights' => array(UPDATE => __('Update')),
               'label'  => __('Physical inventory', 'physicalinv'),
               'field'  => 'plugin_physicalinv_inventory'
               )
-          );
+          ];
       foreach ($a_rights as $data) {
-         ProfileRight::deleteProfileRights(array($data['field']));
+         ProfileRight::deleteProfileRights([$data['field']]);
       }
    }
 
@@ -190,16 +190,16 @@ class PluginPhysicalinvProfile extends Profile {
    static function createFirstAccess($profiles_id) {
       include_once(GLPI_ROOT."/plugins/physicalinv/inc/profile.class.php");
       $profile = new self();
-      $a_rights = array(
+      $a_rights = [
           array(
               'rights' => array(UPDATE => __('Update')),
               'label'  => __('Physical inventory', 'physicalinv'),
               'field'  => 'plugin_physicalinv_inventory'
               )
-          );
+          ];
       foreach ($a_rights as $right) {
          self::addDefaultProfileInfos($profiles_id,
-                                      array($right['field'] => ALLSTANDARDRIGHT));
+                                      [$right['field'] => ALLSTANDARDRIGHT]);
       }
    }
 
@@ -210,19 +210,19 @@ class PluginPhysicalinvProfile extends Profile {
     */
    static function removeRightsFromSession() {
       $profile = new self();
-      $a_rights = array(
-          array(
+      $a_rights = [
+          [
               'rights' => array(UPDATE => __('Update')),
               'label'  => __('Physical inventory', 'physicalinv'),
               'field'  => 'plugin_physicalinv_inventory'
-              )
-          );
+              ]
+          ];
       foreach ($a_rights as $right) {
          if (isset($_SESSION['glpiactiveprofile'][$right['field']])) {
             unset($_SESSION['glpiactiveprofile'][$right['field']]);
          }
       }
-      ProfileRight::deleteProfileRights(array($right['field']));
+      ProfileRight::deleteProfileRights([$right['field']]);
    }
 
 
@@ -235,24 +235,24 @@ class PluginPhysicalinvProfile extends Profile {
    static function initProfile() {
       $pfProfile = new self();
       $profile   = new Profile();
-      $a_rights = array(
+      $a_rights = [
           array(
               'rights' => array(UPDATE => __('Update')),
               'label'  => __('Physical inventory', 'physicalinv'),
               'field'  => 'plugin_physicalinv_inventory'
               )
-          );
+          ];
 
       foreach ($a_rights as $data) {
          if (countElementsInTable("glpi_profilerights", "`name` = '".$data['field']."'") == 0) {
-            ProfileRight::addProfileRights(array($data['field']));
+            ProfileRight::addProfileRights([$data['field']]);
             $_SESSION['glpiactiveprofile'][$data['field']] = 0;
          }
       }
 
       // Add all rights to current profile of the user
       if (isset($_SESSION['glpiactiveprofile'])) {
-         $dataprofile       = array();
+         $dataprofile       = [];
          $dataprofile['id'] = $_SESSION['glpiactiveprofile']['id'];
          $profile->getFromDB($_SESSION['glpiactiveprofile']['id']);
          foreach ($a_rights as $info) {
